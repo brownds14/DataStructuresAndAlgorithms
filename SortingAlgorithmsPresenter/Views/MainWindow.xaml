@@ -1,0 +1,53 @@
+﻿<Window x:Class="SortingAlgorithmsPresenter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SortingAlgorithmsPresenter"
+        mc:Ignorable="d"
+        Title="Sorting Algorithm Comparison" Height="350" Width="525"
+        DataContext="{Binding Main, Source={StaticResource Locator}}">
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                    <Setter Property="Background" Value="Pink"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <StackPanel>
+            <GroupBox x:Name="groupBox" Header="List Description">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Label x:Name="lblSize" Content="List Size" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBox x:Name="txtboxSize" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Width="80" Text="{Binding Size, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}">
+                        </TextBox>
+                        <Label x:Name="lblSorted" Content="List Sorted" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <CheckBox x:Name="chkboxSorted" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding Sorted}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Label x:Name="lblMin" Content="Minimum" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBox x:Name="txtboxMin" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Width="80" Text="{Binding Min, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Label x:Name="lblMax" Content="Maximum" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBox x:Name="txtboxMax" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Width="80" Text="{Binding Max, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                    <StackPanel>
+                        <Button x:Name="btnRunTest" Height="40" Width="125" FontWeight="Bold" Content="Run Tests" Command="{Binding RunAlgorithmsCommand}" IsEnabled="{Binding CanRun, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+            <!-- Populate the results from the algorithms running here -->
+            <ListView ItemsSource="{Binding Results}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Algorithm" DisplayMemberBinding="{Binding Name}" />
+                        <GridViewColumn Header="Time" DisplayMemberBinding="{Binding Time}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
+    </Grid>
+</Window>
